@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Github User App</string>
+    <string name="search_hint_username">Username</string>
+    <string name="dummy_username">Big Boss</string>
+    <string name="dummy_type">User</string>
+    <string name="dummy_name">Ramadan Wibi Surya Aji</string>
+
+    <string name="search">Search</string>
+    <string name="tab_follower">Follower</string>
+    <string name="tab_following">Following</string>
+    <string name="change_language">Change Language</string>
+</resources>

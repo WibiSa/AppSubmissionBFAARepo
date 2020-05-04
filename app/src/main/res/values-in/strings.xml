@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Github User App</string>
+    <string name="search_hint_username">Username</string>
+    <string name="dummy_username">Big Boss</string>
+    <string name="dummy_type">User</string>
+    <string name="dummy_name">Ramadan Wibi Surya Aji</string>
+
+    <string name="search">Cari</string>
+    <string name="tab_follower">Pengikut</string>
+    <string name="tab_following">Mengikuti</string>
+    <string name="change_language">Ganti Bahasa</string>
+</resources>
