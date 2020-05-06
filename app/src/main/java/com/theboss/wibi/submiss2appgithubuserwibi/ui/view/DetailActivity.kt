@@ -20,7 +20,6 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private lateinit var detailViewModel: DetailViewModel
-   // private val detail = Detail()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +31,8 @@ class DetailActivity : AppCompatActivity() {
 
         //terima data username dari MainActivity
         val usernameFromMainActivity = intent.getStringExtra(EXTRA_USERNAME)
+
+        showLoading(true) //loading...
 
         setupTabs(usernameFromMainActivity)
         setupViewModel(usernameFromMainActivity)
@@ -46,13 +47,13 @@ class DetailActivity : AppCompatActivity() {
 
     private fun setupViewModel(username: String?){
         detailViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(DetailViewModel::class.java)
-        showLoading(true)
+
         detailViewModel.setDetail(username)
 
-        detailViewModel.getDetail().observe(this, Observer { d ->
-            if (d != null){
-                bind(d)
-                showLoading(false)
+        detailViewModel.getDetail().observe(this, Observer { dataDetail ->
+            if (dataDetail != null){
+                bind(dataDetail)
+                showLoading(false) //loading finish
             }
         })
     }
@@ -61,7 +62,7 @@ class DetailActivity : AppCompatActivity() {
         Glide.with(this@DetailActivity).load(detail.avatarUrl).apply(RequestOptions().override(110,110)).into(img_avatar_user)
         tv_username.text = detail.login
         tv_name.text = detail.name
-        tv_three_info.text = "${detail.company} . ${detail.location} . ${detail.repository}"
+        tv_three_info.text = getString(R.string.three_info, detail.company, detail.location, detail.repository.toString())
     }
 
     private fun showLoading(state: Boolean){

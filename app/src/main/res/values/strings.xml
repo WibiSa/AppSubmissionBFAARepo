@@ -9,4 +9,11 @@
     <string name="tab_follower">Follower</string>
     <string name="tab_following">Following</string>
     <string name="change_language">Change Language</string>
+    <string name="favorite">Favorite</string>
+    <string name="no_data_now">There is no data at the moment</string>
+    <string name="save_to_favorite">saved to favorites</string>
+    <string name="delete_form_favorite">removed from favorites</string>
+    <string name="button_favorite">Button Favorite</string>
+
+    <string name="three_info">%1$s . %2$s . %3$s</string>
 </resources>

@@ -12,5 +12,6 @@
         android:id="@+id/rv_following"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:scrollbars="vertical"
         tools:listitem="@layout/following_items"/>
 </FrameLayout>

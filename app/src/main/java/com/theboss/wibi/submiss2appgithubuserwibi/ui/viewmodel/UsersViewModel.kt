@@ -40,7 +40,6 @@ class UsersViewModel : ViewModel() {
                         userItems.login = user.getString("login")
                         userItems.avatarUrl = user.getString("avatar_url")
                         userItems.type = user.getString("type")
-                        userItems.score = user.getDouble("score")
                         listItems.add(userItems)
                     }
                     //post nilai ke mutableLiveData variabel

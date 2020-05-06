@@ -10,4 +10,11 @@
     <string name="tab_follower">Pengikut</string>
     <string name="tab_following">Mengikuti</string>
     <string name="change_language">Ganti Bahasa</string>
+    <string name="favorite">Favorit</string>
+    <string name="no_data_now">Tidak ada data saat ini</string>
+    <string name="save_to_favorite">di simpan ke favorit</string>
+    <string name="delete_form_favorite">di hapus dari favorit</string>
+    <string name="button_favorite">Tombol Favorit</string>
+
+    <string name="three_info">%1$s . %2$s . %3$s</string>
 </resources>

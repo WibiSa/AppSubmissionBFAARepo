@@ -58,6 +58,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/layout_custom_search_view"
         android:layout_marginTop="8dp"
+        android:scrollbars="vertical"
         tools:listitem="@layout/user_items"/>
 
 </RelativeLayout>

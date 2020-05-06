@@ -12,7 +12,7 @@ import org.json.JSONObject
 
 class DetailViewModel: ViewModel() {
 
-    val d = MutableLiveData<Detail>()
+    val dataDetail = MutableLiveData<Detail>()
 
     fun setDetail(username: String?){
         val apiUrl = "https://api.github.com/users/$username"
@@ -35,7 +35,7 @@ class DetailViewModel: ViewModel() {
                     detailItems.location = responseObject.getString("location")
                     detailItems.repository = responseObject.getInt("public_repos")
 
-                    d.postValue(detailItems)
+                    dataDetail.postValue(detailItems)
                 }catch (e: Exception){
                     Log.d("Exception", e.message.toString())
                 }
@@ -49,6 +49,6 @@ class DetailViewModel: ViewModel() {
     }
 
     fun getDetail(): LiveData<Detail>{
-        return d
+        return dataDetail
     }
 }

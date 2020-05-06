@@ -5,5 +5,5 @@ class Users {
     var login: String? = null
     var avatarUrl: String? = null
     var type: String? = null
-    var score: Double = 0.0
+    var favorite: Int = 0
 }
