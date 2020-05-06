@@ -12,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Custom">
+        <activity android:name=".util.setting.SettingActivity" />
         <activity android:name=".ui.view.FavoriteActivity" />
         <activity android:name=".ui.view.DetailActivity" />
         <activity android:name=".ui.view.MainActivity">
@@ -21,6 +22,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<!--  Mendaftarkan receiver daily reminder   -->
+        <receiver android:name=".util.service.DailyReminder"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="TODO" />
     </application>
 
 </manifest>

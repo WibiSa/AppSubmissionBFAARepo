@@ -1,4 +1,4 @@
-package com.theboss.wibi.submiss2appgithubuserwibi.helper
+package com.theboss.wibi.submiss2appgithubuserwibi.util.helper
 
 import android.database.Cursor
 import com.theboss.wibi.submiss2appgithubuserwibi.data.database.DatabaseContract

@@ -17,7 +17,8 @@ import com.theboss.wibi.submiss2appgithubuserwibi.R
 import com.theboss.wibi.submiss2appgithubuserwibi.data.database.DatabaseContract
 import com.theboss.wibi.submiss2appgithubuserwibi.data.database.UserFavoriteHelper
 import com.theboss.wibi.submiss2appgithubuserwibi.data.model.Users
-import com.theboss.wibi.submiss2appgithubuserwibi.helper.MappingHelper
+import com.theboss.wibi.submiss2appgithubuserwibi.util.helper.MappingHelper
+import com.theboss.wibi.submiss2appgithubuserwibi.util.setting.SettingActivity
 import com.theboss.wibi.submiss2appgithubuserwibi.ui.adapter.UsersAdapter
 import com.theboss.wibi.submiss2appgithubuserwibi.ui.viewmodel.UsersViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -173,9 +174,13 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
                 return true
             }
-            R.id.action_change_settings ->{
-                val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
-                startActivity(mIntent)
+            R.id.action_change_setting ->{
+                val intent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+                startActivity(intent)
+            }
+            R.id.action_reminder_setting ->{
+                val intent = Intent(this, SettingActivity::class.java)
+                startActivity(intent)
             }
             else -> return  true
         }

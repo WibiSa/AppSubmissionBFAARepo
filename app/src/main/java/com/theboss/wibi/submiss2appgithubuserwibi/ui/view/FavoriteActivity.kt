@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.theboss.wibi.submiss2appgithubuserwibi.R
 import com.theboss.wibi.submiss2appgithubuserwibi.data.database.UserFavoriteHelper
 import com.theboss.wibi.submiss2appgithubuserwibi.data.model.Favorite
-import com.theboss.wibi.submiss2appgithubuserwibi.helper.MappingHelper
+import com.theboss.wibi.submiss2appgithubuserwibi.util.helper.MappingHelper
 import com.theboss.wibi.submiss2appgithubuserwibi.ui.adapter.FavoriteAdapter
 import kotlinx.android.synthetic.main.activity_favorite.*
 import kotlinx.coroutines.*

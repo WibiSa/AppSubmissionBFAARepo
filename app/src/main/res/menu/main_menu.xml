@@ -5,9 +5,14 @@
         android:id="@+id/menu_favorite"
         android:title="@string/favorite"
         android:icon="@drawable/baseline_favorite_white_24dp"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
     <item
-        android:id="@+id/action_change_settings"
+        android:id="@+id/action_change_setting"
         android:title="@string/change_language"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_reminder_setting"
+        android:title="@string/reminder"
+        app:showAsAction="never"
+        />
 </menu>

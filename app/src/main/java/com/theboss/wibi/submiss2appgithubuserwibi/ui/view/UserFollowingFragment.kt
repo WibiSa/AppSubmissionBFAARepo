@@ -53,7 +53,7 @@ class UserFollowingFragment : Fragment() {
 
         followingViewModel.setFollowing(username)
 
-        followingViewModel.getFollowing().observe(this, Observer { followingItems ->
+        followingViewModel.getFollowing().observe(viewLifecycleOwner, Observer { followingItems ->
             if (followingItems != null){
                 adapter.setData(followingItems)
             }
