@@ -1,9 +1,11 @@
 package com.theboss.wibi.submiss2appgithubuserwibi.ui.view
 
 import android.content.ContentValues
-import android.content.Context
 import android.content.Intent
+import android.database.ContentObserver
+import android.net.Uri
 import android.os.Bundle
+import android.os.HandlerThread
 import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
@@ -15,12 +17,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.theboss.wibi.submiss2appgithubuserwibi.R
 import com.theboss.wibi.submiss2appgithubuserwibi.data.database.DatabaseContract
-import com.theboss.wibi.submiss2appgithubuserwibi.data.database.UserFavoriteHelper
+import com.theboss.wibi.submiss2appgithubuserwibi.data.database.DatabaseContract.UserFavoriteColumns.Companion.CONTENT_URI
 import com.theboss.wibi.submiss2appgithubuserwibi.data.model.Users
-import com.theboss.wibi.submiss2appgithubuserwibi.util.helper.MappingHelper
-import com.theboss.wibi.submiss2appgithubuserwibi.util.setting.SettingActivity
 import com.theboss.wibi.submiss2appgithubuserwibi.ui.adapter.UsersAdapter
 import com.theboss.wibi.submiss2appgithubuserwibi.ui.viewmodel.UsersViewModel
+import com.theboss.wibi.submiss2appgithubuserwibi.util.helper.MappingHelper
+import com.theboss.wibi.submiss2appgithubuserwibi.util.setting.SettingActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.user_items.view.*
 import kotlinx.coroutines.Dispatchers
@@ -31,8 +33,8 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
     private lateinit var adapter: UsersAdapter
     private lateinit var userViewModel: UsersViewModel
-
-    private lateinit var userFavoriteHelper: UserFavoriteHelper
+    private lateinit var userItems: ArrayList<Users>
+    private lateinit var uriWithId: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +51,20 @@ class MainActivity : AppCompatActivity() {
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.adapter = adapter
 
+        //Membuat thread baru untuk melihat perubahan (observe) supaya tidak mengganggu kinerja thread utama.
+        val handlerThread = HandlerThread("DataObserve")
+        handlerThread.start()
+        val handler =android.os.Handler(handlerThread.looper)
+
+        //membuat sebuah fungsi yang menjadi turunan ContentObserver supaya bisa melakukan fungsi observe.
+        val myObserver = object : ContentObserver(handler){
+            override fun onChange(selfChange: Boolean) {
+                loadUserFavorites(userItems)
+            }
+        }
+        //Setelah observer dibuat, kita daftarkan dengan menggunakan registerContentObserver.
+        contentResolver.registerContentObserver(CONTENT_URI, true, myObserver)
+
         //Menanggapi click dr user pada satu item di recyclerView
         adapter.setOnItemClickCallback(object : UsersAdapter.OnItemClickCallback{
 
@@ -62,13 +78,13 @@ class MainActivity : AppCompatActivity() {
                 var iconFavorite = R.drawable.outline_favorite_black_24dp
                 if(data.favorite == 0){
                     //data dimasukkan ke db
-                    insertToDb(view.context, data.id, data.login, data.avatarUrl, data.type)
+                    insertToDb(view, data.id, data.login, data.avatarUrl, data.type)
                     Toast.makeText(this@MainActivity, "${data.login} ${getString(R.string.save_to_favorite)}", Toast.LENGTH_SHORT).show()
                     data.favorite = 1
 
                 }else{
                     //data dihapus dr db
-                    deleteUserById(view.context, data.id.toString())
+                    deleteUserById(view, data.id.toString())
                     Toast.makeText(this@MainActivity, "${data.login} ${getString(R.string.delete_form_favorite)}", Toast.LENGTH_SHORT).show()
                     data.favorite = 0
                     iconFavorite = R.drawable.outline_favorite_border_black_24dp
@@ -90,10 +106,11 @@ class MainActivity : AppCompatActivity() {
             showLoading(true)
             userViewModel.setUsers(username)
         }
-
         //mendapatkan hasil pencarian user
         userViewModel.getUsers().observe(this, Observer { userItems ->
             if (userItems != null){
+                //mengisi dengan list terbaru
+                this.userItems = userItems
                 //implementasi fungsi loadUser
                 loadUserFavorites(userItems)
                 showLoading(false)
@@ -103,28 +120,30 @@ class MainActivity : AppCompatActivity() {
 
     //load data user favorite dr db
     private fun loadUserFavorites(userItems: ArrayList<Users>){
-        userFavoriteHelper = UserFavoriteHelper.getInstance(applicationContext)
-        userFavoriteHelper.open()
-
         //menggunakan coroutine
         GlobalScope.launch (Dispatchers.Main){
             val deferredItemsFavorite = async(Dispatchers.IO) {
-                val cursor = userFavoriteHelper.queryAll()
+
+                //load data dengan contentResolver (Provider)
+                val cursor = this@MainActivity.contentResolver?.query(CONTENT_URI, null, null, null, null)
                 MappingHelper.mapCursorToArrayList(cursor)
             }
 
             val userFavorites = deferredItemsFavorite.await() //data user favorite dr db
 
             adapter.setData(userItems, userFavorites) //Set data dari APi dan db ke adapter untuk di olah.
+
         }
     }
 
     //db insert data user favorite
-    private fun insertToDb(context: Context,id: Int, login: String?, avatarUrl: String?, type: String?){
-        //setup UserFavoriteHelper
-        userFavoriteHelper = UserFavoriteHelper.getInstance(context)
-        userFavoriteHelper.open()
-
+    private fun insertToDb(
+        view: View,
+        id: Int,
+        login: String?,
+        avatarUrl: String?,
+        type: String?
+    ){
         val values = ContentValues()
         values.put(DatabaseContract.UserFavoriteColumns._ID, id)
         values.put(DatabaseContract.UserFavoriteColumns.LOGIN, login)
@@ -132,15 +151,18 @@ class MainActivity : AppCompatActivity() {
         values.put(DatabaseContract.UserFavoriteColumns.TYPE, type)
         values.put(DatabaseContract.UserFavoriteColumns.FAVORITE, 1)
 
-        userFavoriteHelper.insert(values)
+        //insert with contentResolver (Provider)
+        view.context.contentResolver.insert(CONTENT_URI, values)
     }
 
-    private fun deleteUserById (context: Context, id: String){
-        //setup UserFavoriteHelper
-        userFavoriteHelper = UserFavoriteHelper.getInstance(context)
-        userFavoriteHelper.open()
+    //delete data in db by id
+    private fun deleteUserById (view: View, id: String){
+        //mwnghapus dengan id
+        uriWithId = Uri.parse(CONTENT_URI.toString() + "/" + id)
 
-        userFavoriteHelper.deleteById(id)
+        //delete with contentResolver (Provider)
+        view.context.contentResolver.delete(uriWithId, null, null)
+
     }
 
     //intent ke DetailActivity

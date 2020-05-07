@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.theboss.wibi.submiss2appgithubuserwibi">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="com.theboss.wibi.submiss2appgithubuserwibi.READ_DATABASE"
+        android:protectionLevel = "normal"/>
+    <uses-permission android:name="com.theboss.wibi.submiss2appgithubuserwibi.WRITE_DATABASE"
+        android:protectionLevel = "normal"/>
 
     <application
         android:allowBackup="true"
@@ -21,12 +27,19 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-<!--  Mendaftarkan receiver daily reminder   -->
-        <receiver android:name=".util.service.DailyReminder"
+        </activity> <!-- Mendaftarkan receiver daily reminder -->
+        <receiver
+            android:name=".util.service.DailyReminder"
             android:enabled="true"
             android:exported="true"
-            android:permission="TODO" />
+            android:permission="TODO"
+            tools:ignore="ExportedReceiver" />
+        <provider
+            android:name=".provider.UserFavoriteProvider"
+            android:authorities="com.theboss.wibi.submiss2appgithubuserwibi"
+            android:exported="true"
+            android:readPermission="com.theboss.wibi.submiss2appgithubuserwibi.READ_DATABASE"
+            android:writePermission="com.theboss.wibi.submiss2appgithubuserwibi.WRITE_DATABASE"/>
     </application>
 
 </manifest>
