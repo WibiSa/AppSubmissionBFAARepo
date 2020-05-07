@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="IconLocation">
+        <ignore path="src/main/res/drawable/baseline_favorite_white_24dp.png" />
+        <ignore path="src/main/res/drawable/outline_favorite_black_24dp.png" />
+        <ignore path="src/main/res/drawable/outline_favorite_border_black_24dp.png" />
+    </issue>
+</lint>
