@@ -22,4 +22,6 @@
     <string name="info_daily_reminder_notification">Hai, mari cari teman anda di Github hari ini.</string>
     <string name="reminder">Pengingat</string>
     <string name="test_notify">Tes pesan</string>
+    <string name="switch_reminder_on">Pengingat dinyalakan</string>
+    <string name="switch_reminder_off">Pengingat dimatikan</string>
 </resources>

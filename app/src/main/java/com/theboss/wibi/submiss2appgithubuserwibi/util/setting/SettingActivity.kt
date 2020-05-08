@@ -29,11 +29,11 @@ class SettingActivity : AppCompatActivity(), View.OnClickListener{
             if (isChecked){
                 dailyReminder.setRepeatingAlarm(this)
                 userPreference.setDailyReminder(true)
-                Toast.makeText(this, "Reminder is on",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.switch_reminder_on),Toast.LENGTH_SHORT).show()
             }else{
                 dailyReminder.cancelRepeatingAlarm(this)
                 userPreference.setDailyReminder(false)
-                Toast.makeText(this, "Reminder is off",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.switch_reminder_off),Toast.LENGTH_SHORT).show()
             }
         }
 

@@ -1,2 +1,3 @@
 rootProject.name='Submiss2AppGithubUserWibi'
 include ':app'
+include ':favoriteuserapp'

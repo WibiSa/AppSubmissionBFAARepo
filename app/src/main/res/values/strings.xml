@@ -21,4 +21,6 @@
     <string name="info_daily_reminder_notification">Hi, let\'s find your friends on Github today.</string>
     <string name="reminder">Reminder</string>
     <string name="test_notify">Testing notification</string>
+    <string name="switch_reminder_on">Reminder is on</string>
+    <string name="switch_reminder_off">Reminder is off</string>
 </resources>
