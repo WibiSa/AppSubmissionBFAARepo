@@ -147,7 +147,7 @@ class MainActivity : AppCompatActivity() {
         type: String?
     ){
         val values = ContentValues()
-        values.put(DatabaseContract.UserFavoriteColumns._ID, id)
+        values.put(DatabaseContract.UserFavoriteColumns.ID, id)
         values.put(DatabaseContract.UserFavoriteColumns.LOGIN, login)
         values.put(DatabaseContract.UserFavoriteColumns.AVATAR_URL, avatarUrl)
         values.put(DatabaseContract.UserFavoriteColumns.TYPE, type)
@@ -160,7 +160,7 @@ class MainActivity : AppCompatActivity() {
     //delete data in db by id
     private fun deleteUserById (view: View, id: String){
         //mwnghapus dengan id
-        uriWithId = Uri.parse(CONTENT_URI.toString() + "/" + id)
+        uriWithId = Uri.parse("$CONTENT_URI/$id")
 
         //delete with contentResolver (Provider)
         view.context.contentResolver.delete(uriWithId, null, null)
@@ -210,11 +210,4 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
-//    override fun onRestart() {
-//        showRecyclerListViewUser()
-//        super.onRestart()
-//    }
-
-
 }

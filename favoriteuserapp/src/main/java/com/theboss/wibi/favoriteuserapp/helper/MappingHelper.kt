@@ -12,7 +12,7 @@ object MappingHelper {
         val favoriteList = ArrayList<Favorite>()
         userFavoriteCursor?.apply {
             while (moveToNext()){
-                val id = getInt(getColumnIndexOrThrow(DatabaseContract.UserFavoriteColumns._ID))
+                val id = getInt(getColumnIndexOrThrow(DatabaseContract.UserFavoriteColumns.ID))
                 val login = getString(getColumnIndexOrThrow(DatabaseContract.UserFavoriteColumns.LOGIN))
                 val avatarUrl = getString(getColumnIndexOrThrow(DatabaseContract.UserFavoriteColumns.AVATAR_URL))
                 val type = getString(getColumnIndexOrThrow(DatabaseContract.UserFavoriteColumns.TYPE))

@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
     //delete data in db by id
     private fun deleteUserById (view: View, id: String){
         //mwnghapus dengan id
-        uriWithId = Uri.parse(CONTENT_URI.toString() + "/" + id)
+        uriWithId = Uri.parse("$CONTENT_URI/$id")
 
         //delete with contentResolver (Provider)
         view.context.contentResolver.delete(uriWithId, null, null)

@@ -4,8 +4,8 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import com.theboss.wibi.submiss2appgithubuserwibi.data.database.DatabaseContract.UserFavoriteColumns.Companion.ID
 import com.theboss.wibi.submiss2appgithubuserwibi.data.database.DatabaseContract.UserFavoriteColumns.Companion.TABLE_NAME
-import com.theboss.wibi.submiss2appgithubuserwibi.data.database.DatabaseContract.UserFavoriteColumns.Companion._ID
 import java.sql.SQLException
 
 class UserFavoriteHelper(context: Context) {
@@ -30,12 +30,12 @@ class UserFavoriteHelper(context: Context) {
         database = dataBaseHelper.writableDatabase
     }
 
-    fun close(){
-        dataBaseHelper.close()
-
-        if (database.isOpen)
-            database.close()
-    }
+//    fun close(){
+//        dataBaseHelper.close()
+//
+//        if (database.isOpen)
+//            database.close()
+//    }
 
     //mengambil data
     fun queryAll(): Cursor{
@@ -46,7 +46,7 @@ class UserFavoriteHelper(context: Context) {
             null,
             null,
             null,
-            "$_ID ASC"
+            "$ID ASC"
         )
     }
 
@@ -57,6 +57,6 @@ class UserFavoriteHelper(context: Context) {
 
     //menghapus data
     fun deleteById(id: String): Int{
-        return database.delete(DATABASE_TABLE, "$_ID = '$id'", null)
+        return database.delete(DATABASE_TABLE, "$ID = '$id'", null)
     }
 }
