@@ -1,4 +1,4 @@
-package com.theboss.wibi.submiss2appgithubuserwibi.ui.adapter
+package com.theboss.wibi.favoriteuserapp.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.theboss.wibi.submiss2appgithubuserwibi.R
-import com.theboss.wibi.submiss2appgithubuserwibi.data.model.Favorite
+import com.theboss.wibi.favoriteuserapp.data.model.Favorite
+import com.theboss.wibi.favoriteuserapp.R
 import kotlinx.android.synthetic.main.favorite_items.view.*
 
 class FavoriteAdapter : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
@@ -46,10 +46,8 @@ class FavoriteAdapter : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>
                 Glide.with(this.context).load(favorite.avatarUrl).apply(RequestOptions().override(55,55)).into(img_user)
 
                 if(favorite.favorite == 1) {
-                    val iconFavorite = R.drawable.outline_favorite_black_24dp
-                    btn_favorite.setImageResource(iconFavorite)
-                }else{
-                    val iconFavorite = R.drawable.outline_favorite_border_black_24dp
+                    val iconFavorite =
+                        R.drawable.outline_favorite_black_24dp
                     btn_favorite.setImageResource(iconFavorite)
                 }
 

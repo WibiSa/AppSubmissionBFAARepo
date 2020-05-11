@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.theboss.wibi.submiss2appgithubuserwibi.R
 import com.theboss.wibi.submiss2appgithubuserwibi.data.database.DatabaseContract
 import com.theboss.wibi.submiss2appgithubuserwibi.data.database.DatabaseContract.UserFavoriteColumns.Companion.CONTENT_URI
+import com.theboss.wibi.submiss2appgithubuserwibi.data.model.Favorite
 import com.theboss.wibi.submiss2appgithubuserwibi.data.model.Users
 import com.theboss.wibi.submiss2appgithubuserwibi.ui.adapter.UsersAdapter
 import com.theboss.wibi.submiss2appgithubuserwibi.ui.viewmodel.UsersViewModel
@@ -51,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.adapter = adapter
 
-        //Membuat thread baru untuk melihat perubahan (observe) supaya tidak mengganggu kinerja thread utama.
+                //Membuat thread baru untuk melihat perubahan (observe) supaya tidak mengganggu kinerja thread utama.
         val handlerThread = HandlerThread("DataObserve")
         handlerThread.start()
         val handler =android.os.Handler(handlerThread.looper)
@@ -118,8 +119,9 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    private var userFavoriteGlobal = ArrayList<Favorite>()
     //load data user favorite dr db
-    private fun loadUserFavorites(userItems: ArrayList<Users>){
+    private fun loadUserFavorites(userItems: ArrayList<Users>) {
         //menggunakan coroutine
         GlobalScope.launch (Dispatchers.Main){
             val deferredItemsFavorite = async(Dispatchers.IO) {
@@ -132,7 +134,7 @@ class MainActivity : AppCompatActivity() {
             val userFavorites = deferredItemsFavorite.await() //data user favorite dr db
 
             adapter.setData(userItems, userFavorites) //Set data dari APi dan db ke adapter untuk di olah.
-
+            userFavoriteGlobal = userFavorites
         }
     }
 
@@ -208,4 +210,11 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+//    override fun onRestart() {
+//        showRecyclerListViewUser()
+//        super.onRestart()
+//    }
+
+
 }

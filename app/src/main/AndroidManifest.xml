@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.theboss.wibi.submiss2appgithubuserwibi">
+
     <uses-permission android:name="android.permission.INTERNET" />
+
     <permission android:name="com.theboss.wibi.submiss2appgithubuserwibi.READ_DATABASE" android:protectionLevel="normal"/>
     <permission android:name="com.theboss.wibi.submiss2appgithubuserwibi.WRITE_DATABASE" android:protectionLevel="normal"/>
 
@@ -15,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Custom">
         <activity android:name=".util.setting.SettingActivity" />
-        <activity android:name=".ui.view.FavoriteActivity" />
+        <activity android:name=".ui.view.FavoriteActivity"/>
         <activity android:name=".ui.view.DetailActivity" />
         <activity android:name=".ui.view.MainActivity">
             <intent-filter>

@@ -1,31 +1,30 @@
-package com.theboss.wibi.submiss2appgithubuserwibi.ui.view
+package com.theboss.wibi.favoriteuserapp.ui.view
 
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.theboss.wibi.submiss2appgithubuserwibi.R
-import com.theboss.wibi.submiss2appgithubuserwibi.data.database.DatabaseContract.UserFavoriteColumns.Companion.CONTENT_URI
-import com.theboss.wibi.submiss2appgithubuserwibi.data.model.Favorite
-import com.theboss.wibi.submiss2appgithubuserwibi.ui.adapter.FavoriteAdapter
-import com.theboss.wibi.submiss2appgithubuserwibi.util.helper.MappingHelper
-import kotlinx.android.synthetic.main.activity_favorite.*
-import kotlinx.android.synthetic.main.user_items.view.*
+import com.theboss.wibi.favoriteuserapp.R
+import com.theboss.wibi.favoriteuserapp.data.database.DatabaseContract.UserFavoriteColumns.Companion.CONTENT_URI
+import com.theboss.wibi.favoriteuserapp.data.model.Favorite
+import com.theboss.wibi.favoriteuserapp.helper.MappingHelper
+import com.theboss.wibi.favoriteuserapp.ui.adapter.FavoriteAdapter
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.favorite_items.view.*
 import kotlinx.coroutines.*
 
-class FavoriteActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
     //inisialisasi
     private lateinit var adapter: FavoriteAdapter
     private lateinit var uriWithId: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_favorite)
+        setContentView(R.layout.activity_main)
 
-        supportActionBar?.title = "User Favorite"
+        supportActionBar?.title = "User Favorite App"
 
         showRecyclerListViewFavoriteUser()
         //proses ambil data menggunakan background thread
@@ -40,19 +39,20 @@ class FavoriteActivity : AppCompatActivity() {
         rv_favorite.setHasFixedSize(true)
         rv_favorite.adapter = adapter
 
-        adapter.setOnItemClickCallback(object : FavoriteAdapter.OnItemClickCallback{
+        adapter.setOnItemClickCallback(object :
+            FavoriteAdapter.OnItemClickCallback {
 
             override fun onItemClicked(data: Favorite) {
-                selectedUser(data)
+                //selectedUser(data)
             }
-
             override fun btnFavoriteClicked(view: View, data: Favorite) {
                 if(data.favorite == 1){
                     //data dihapus dr db
                     deleteUserById(view, data.id.toString())
-                    Toast.makeText(this@FavoriteActivity, "${data.login} ${getString(R.string.delete_form_favorite)}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity, "${data.login} ${getString(R.string.delete_form_favorite)}", Toast.LENGTH_SHORT).show()
                     data.favorite = 0
-                    val iconFavorite = R.drawable.outline_favorite_border_black_24dp
+                    val iconFavorite =
+                        R.drawable.outline_favorite_black_24dp
                     view.btn_favorite.setImageResource(iconFavorite)
                 }
             }
@@ -65,8 +65,10 @@ class FavoriteActivity : AppCompatActivity() {
             progress_bar.visibility = View.VISIBLE
             val deferredUserFavorites = async (Dispatchers.IO){
                 //meangambil data dengan contentResolver (provider)
-                val cursor = contentResolver.query(CONTENT_URI, null, null, null,null)
-                MappingHelper.mapCursorToArrayList(cursor)
+                val cursor = contentResolver?.query(CONTENT_URI, null, null, null,null)
+                MappingHelper.mapCursorToArrayList(
+                    cursor
+                )
             }
             progress_bar.visibility = View.INVISIBLE
             val userFavorites =deferredUserFavorites.await()
@@ -75,18 +77,9 @@ class FavoriteActivity : AppCompatActivity() {
             }else{
                 adapter.listFavorites = ArrayList()
                 delay(300)
-                Toast.makeText(this@FavoriteActivity, getString(R.string.no_data_now), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, getString(R.string.no_data_now), Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    //intent ke halaman detail sesuai user yg dipilih
-    private fun selectedUser(userFav: Favorite){
-        val username = userFav.login
-
-        val intentToDetail = Intent(this@FavoriteActivity, DetailActivity::class.java)
-        intentToDetail.putExtra(DetailActivity.EXTRA_USERNAME, username)
-        startActivity(intentToDetail)
     }
 
     //delete data in db by id
@@ -101,7 +94,6 @@ class FavoriteActivity : AppCompatActivity() {
 
     override fun onRestart() {
         showRecyclerListViewFavoriteUser()
-        //proses ambil data menggunakan background thread
         loadUserFavoritesAsync()
         super.onRestart()
     }
